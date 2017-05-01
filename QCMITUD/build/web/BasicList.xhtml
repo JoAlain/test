@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/templates.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:treeTable value="#{basicView.root}" var="item">
+                        <f:facet name="header">
+                            Liste Qiuestionnaire
+                        </f:facet>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{item.idqcm}" />
+                        </p:column>
+                        <p:column headerText="Titre">
+                            <h:outputText value="#{item.titre}" />
+                        </p:column>
+                        <p:column headerText="Questions">
+                            <h:outputText value="#{item.questions}" />
+                        </p:column>
+                        <p:column headerText="Reponse">
+                            <h:outputText value="#{item.reponse}" />
+                        </p:column>
+                        <p:column style="width:24px">
+                            <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search">
+                                <f:setPropertyActionListener value="#{item}" target="#{basicView.selectedDocument}" />
+                            </p:commandLink>
+                        </p:column>
+                    </p:treeTable>
+
+                    <p:dialog id="dialog" header="Détails du questionnaire" showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false">
+                        <p:outputPanel id="documentPanel">
+                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty basicView.selectedDocument}">
+                                <h:outputLabel for="id" value="ID: " />
+                                <h:outputText id="id" value="#{basicView.selectedDocument.idqcm}" style="font-weight:bold" />
+
+                                <h:outputLabel for="name" value="Titre: " />
+                                <h:outputText id="name" value="#{basicView.selectedDocument.titre}" style="font-weight:bold" />
+
+                                <h:outputLabel for="size" value="Questions: " />
+                                <h:outputText id="size" value="#{basicView.selectedDocument.questions}" style="font-weight:bold" />
+
+                                <h:outputLabel for="type" value="Reponse: " />
+                                <h:outputText id="type" value="#{basicView.selectedDocument.reponse}" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

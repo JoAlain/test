@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>  
+        <f:viewParam name="idqcm" value="#{questionnaireDetailsMBean.idQcm}"  required="true"/>  
+        <f:viewAction action="#{questionnaireMBean.getAllQuestionnaire}"/>  
+    </f:metadata>
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/templates.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+
+
+                    <h:form>
+                        <h1><h:outputText value="Création/Modification QCM "/></h1>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Libelle:" for="libelle" />
+                            <p:inputText id="libelle" value="#{questionnaireDetailsMBean.details.libelle}" title="Libelle" />
+                            <p:outputLabel value="Description:" for="description" />
+                            <p:inputText id="description" value="#{questionnaireDetailsMBean.details.description}" title="Description" />
+                            <p:outputLabel value="Enseignant:" for="enseignant" />
+                            <p:selectOneMenu id="enseignant" required="true" 
+                                             requiredMessage="The DiscountCode field is required."
+                                             converter="#{questionnaireMBean.enseignantCodeConverter}"
+                                             value="#{questionnaireDetailsMBean.detailsUsers.nom} : #{questionnaireDetailsMBean.detailsUsers.prenom}" > 
+                                <f:selectItems value="#{questionnaireDetailsMBean.detailsUsers}"
+                                               var="item"
+                                               itemLabel="#{item.nom} : #{item.prenom} %"
+                                               itemValue="#{item}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Id:" for="id" />
+                            <p:inputText id="id" value="#{questionnaireDetailsMBean.users.id}" title="Id" />
+                        </p:panelGrid>
+                        <p:commandButton action="#{questionnaireDetailsMBean.update}" value="Enregistrer"/>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
